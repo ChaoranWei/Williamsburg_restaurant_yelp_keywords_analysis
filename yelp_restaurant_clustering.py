@@ -6,22 +6,22 @@ from collections import Counter
 
 
 
-f = open('peter_chang.txt', 'r')
+f = open('peter_chang_date.txt', 'r')
 text = f.read()
 words = re.findall(r'\w+', text)
+lower_words = [word.lower() for word in words] 
 stops = set(stopwords.words("english")) 
-stops2 = ['ve', 'get', 'came', 'didn', 'ever', 'never', 'though', 'wasn','food','williamsburg','restaurant', 'br', '39','34']
-meaningful_words = [w for w in words if ((not w in stops) and (not w in stops2))]   
-cap_words = [word.lower() for word in meaningful_words] 
+stops2 = ['ve', 'get', 'came', 'didn', 'ever', 'never', 'though', 'wasn','food','williamsburg','restaurant', 'br', '39','34', 'place','go','even']
+meaningful_words = [w for w in lower_words if ((not w in stops) and (not w in stops2))]   
 
-word_counts = Counter(cap_words)
+
+word_counts = Counter(meaningful_words)
 counts = dict(word_counts)
 text = ''
 for i in counts.keys():
-    if counts[i] > 11:
-        text = text + (' ' + i) * counts[i]
+    text = text + (' ' + i) * (counts[i])
+#food for thought: 60, 10, 90
 
 
-
-tags = make_tags(get_tag_counts(text), maxsize=90)
-create_tag_image(tags, 'peter_chang.png', size=(700, 700), fontname='Lobster')
+tags = make_tags(get_tag_counts(text)[:50], maxsize=100)
+create_tag_image(tags, 'peter_chang.png', size=(900, 700), fontname = 'Lobster')
